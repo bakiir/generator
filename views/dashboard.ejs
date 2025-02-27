@@ -61,27 +61,9 @@
     <div class="count">Бүгінгі ойыншылар саны: <%= count %></div>
 
     <button class="button reset-button" onclick="resetData()">Жаңарту</button>
-    <button class="button reset-button" onclick="resetMain()">Бардлық тізімді жаңарту</button>
-    <button class="button download-button" onclick="downloadDailyUsers()">Бүгінгі ойыншылар тізімі</button>
+    <button class="button reset-button" onclick="resetMain()">Барлық тізімді жаңарту</button>
     <button class="button download-button" onclick="downloadAllUsers()">Барлық ойыншылар тізімі</button>
 
-    <div class="divider">Бүгінгі ойыншылар</div>
-    <table>
-        <thead>
-            <tr>
-                <th>Есімі</th>
-                <th>Номері</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% todayUsers.forEach(user => { %>
-                <tr>
-                    <td><%= user.name %></td>
-                    <td><%= user.number %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
 
     <div class="divider">Барлық ойыншылар</div>
     <table>
@@ -105,20 +87,29 @@
 
     <script>
         async function resetData() {
-            const response = await fetch('/reset', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
 
-            const result = await response.json();
-            if (result.success) {
-                alert("Data reset successfully!");
-                location.reload(); // Перезагружаем страницу
-            } else {
-                alert("Failed to reset data: " + result.error);
+            var flag 
+            flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")
+            if (flag == "Ия"){
+                const response = await fetch('/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("Деректер сәтті өшірілді!");
+                    location.reload(); // Перезагружаем страницу
+                } else {
+                    alert("Failed to reset data: " + result.error);
+                }
+            }else{
+                
             }
+
+            
         }
 
 
@@ -132,16 +123,14 @@
 
             const result = await response.json();
             if (result.success) {
-                alert("Data reset successfully!");
+                alert("Деректер сәтті өшірілді!");
                 location.reload(); // Перезагружаем страницу
             } else {
                 alert("Failed to reset data: " + result.error);
             }
         }
 
-        function downloadDailyUsers() {
-            window.location.href = '/download/daily';
-        }
+        
 
         function downloadAllUsers() {
             window.location.href = '/download/all';

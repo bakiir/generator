@@ -32,7 +32,7 @@ router.post('/reg', async (req, res) => {
         // Проверяем, зарегистрирован ли пользователь сегодня
         const existingDailyUser = await DailyUser.findOne({ number, date: { $gte: new Date().setHours(0, 0, 0, 0) } });
         if (existingDailyUser) {
-            return res.json({ success: false, msg: "User already registered today", number: existingDailyUser.number });
+            return res.json({ success: false, msg: "Сіз бүгін номер алып қойдыңыз", number: existingDailyUser.number });
         }
 
         // Атомарно увеличиваем счетчик
@@ -75,7 +75,7 @@ router.post('/reset', async (req, res) => {
             { upsert: true } // Создаем документ, если он не существует
         );
 
-        res.json({ success: true, msg: "Data reset successfully" });
+        res.json({ success: true, msg: "Деректер сәтті өшірілді!" });
     } catch (err) {
         console.error('Reset error:', err);
         res.status(500).json({ success: false, msg: "Data reset failed", error: err.message });
@@ -91,7 +91,7 @@ router.post('/resetMain', async (req, res) => {
         // Сбрасываем счетчик
         count = 0;
 
-        res.json({ success: true, msg: "Data reset successfully" });
+        res.json({ success: true, msg: "Деректер сәтті өшірілді!" });
     } catch (err) {
         console.error('Reset error:', err);
         res.status(500).json({ success: false, msg: "Data reset failed", error: err.message });
@@ -105,13 +105,10 @@ router.get('/dashboard', async (req, res) => {
         const allUsers = await User.find({}).lean();
         const counter = await Counter.findOne({ _id: 'userId' });
 
-        // Получаем сегодняшних пользователей
-        const todayUsers = await DailyUser.find({ date: { $gte: new Date().setHours(0, 0, 0, 0) } }).lean();
 
         // Отправляем данные на фронтенд
         res.render('dashboard', {
             allUsers: allUsers,
-            todayUsers: todayUsers,
             count: counter.seq // Общее количество пользователей
         });
     } catch (err) {
