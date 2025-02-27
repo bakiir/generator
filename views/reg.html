@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Қатысу формасы</title>
+</head>
+<body>
+    <h1>Қатысу формасы</h1>
+    
+    <form action="/account/reg" method="post">
+        <div>
+            <label for="name">Есіміңіз</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div>
+            <label for="number">Телефон номеріңіз</label>
+            <input type="tel" id="number" name="number" pattern="\+?[0-9]{10,15}" minlength="11" placeholder="+7 (__)___-__-__"
+            maxlength="12" required>
+        </div>
+        
+        <div>
+            <label for="command">Команда аты</label>
+            <input type="text" id="command" name="command" required>
+        </div>
+        
+        <button type="submit">Қатысу</button>
+    </form>
+    
+    <script>
+    // Optional: Add client-side validation or AJAX submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        // Uncomment for AJAX submission
+        /*
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value,
+            number: document.getElementById('number').value,
+            command: document.getElementById('command').value
+        };
+        
+        fetch('/account/reg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Registration successful!');
+                window.location.href = '/account/dashboard';
+            } else {
+                alert('Registration failed: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred during registration.');
+        });
+        */
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панелі</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .count {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .divider {
+            margin: 20px 0;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #333;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .reset-button {
+            background-color: #ff4d4d;
+        }
+        .reset-button:hover {
+            background-color: #cc0000;
+        }
+        .download-button {
+            background-color: #4CAF50;
+        }
+        .download-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Админ панелі</h1>
+    <div class="count">Бүгінгі ойыншылар саны: <%= count %></div>
+
+    <button class="button reset-button" onclick="resetData()">Жаңарту</button>
+    <button class="button reset-button" onclick="resetMain()">Бардлық тізімді жаңарту</button>
+    <button class="button download-button" onclick="downloadDailyUsers()">Бүгінгі ойыншылар тізімі</button>
+    <button class="button download-button" onclick="downloadAllUsers()">Барлық ойыншылар тізімі</button>
+
+    <div class="divider">Бүгінгі ойыншылар</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Есімі</th>
+                <th>Номері</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% todayUsers.forEach(user => { %>
+                <tr>
+                    <td><%= user.name %></td>
+                    <td><%= user.number %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <div class="divider">Барлық ойыншылар</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Есімі</th>
+                <th>Номері</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% allUsers.forEach(user => { %>
+                <tr>
+                    <td><%= user.name %></td>
+                    <td><%= user.number %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    
+
+    <script>
+        async function resetData() {
+            const response = await fetch('/reset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert("Data reset successfully!");
+                location.reload(); // Перезагружаем страницу
+            } else {
+                alert("Failed to reset data: " + result.error);
+            }
+        }
+
+
+        async function resetMain() {
+            const response = await fetch('/resetMain', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert("Data reset successfully!");
+                location.reload(); // Перезагружаем страницу
+            } else {
+                alert("Failed to reset data: " + result.error);
+            }
+        }
+
+        function downloadDailyUsers() {
+            window.location.href = '/download/daily';
+        }
+
+        function downloadAllUsers() {
+            window.location.href = '/download/all';
+        }
+    </script>
+</body>
+</html>
