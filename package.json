@@ -5,21 +5,19 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server"
+    "start": "node server.js"
   },
-  "devDependencies": {
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
     "bcrypt": "*",
     "body-parser": "*",
     "cors": "*",
     "jsonwebtoken": "*",
     "mongoose": "*",
     "passport": "*",
-    "passport-jwt": "*"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
+    "passport-jwt": "*",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",

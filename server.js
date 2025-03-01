@@ -4,18 +4,17 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const path = require('path')
-const config = require('./config/db')
+// const config = require('./config/db')
 const account = require('./routes/account')
 const router = require('./routes/account')
 const Counter = require('./models/Counter');
 
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
-app.use(router) 
 
 // Set up middleware BEFORE routes
 app.use(cors())
@@ -25,16 +24,12 @@ app.use(bodyParser.urlencoded({ extended: true })) // Add this for form submissi
 // Serve static files
 app.use(express.static(path.join(__dirname, 'views')))
 
-
-
-app.use('/account', account)
-
-
-
-
+// Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/reg.html'))
 })
+
+app.use('/account', account)
 
 // Инициализация счетчика (выполняется один раз при запуске сервера)
 async function initializeCounter() {
@@ -54,7 +49,10 @@ async function initializeCounter() {
 initializeCounter();
 
 // MongoDB connection
-mongoose.connect(config.db)
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 mongoose.connection.on('connected', () => {
     console.log('Successfully connected to MongoDB')
 })

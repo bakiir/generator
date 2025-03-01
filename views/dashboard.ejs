@@ -84,75 +84,74 @@
     </table>
 
     
-
     <script>
         async function resetData() {
-    const flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")?.trim().toLowerCase();
-    
-    if (flag === "ия") {
-        try {
-            const response = await fetch('/reset', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")?.trim().toLowerCase();
+            
+            if (flag === "ия") {
+                try {
+                    const response = await fetch('/account/reset', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
 
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const result = await response.json();
+                    const result = await response.json();
 
-            if (result.success) {
-                alert("Деректер сәтті өшірілді!");
-                location.reload(); // Перезагружаем страницу
+                    if (result.success) {
+                        alert("Деректер сәтті өшірілді!");
+                        location.reload(); // Перезагружаем страницу
+                    } else {
+                        alert("Қате: " + result.error);
+                    }
+                } catch (error) {
+                    alert("Серверге қосылу мүмкін емес: " + error.message);
+                }
             } else {
-                alert("Қате: " + result.error);
+                alert("Өшіру тоқтатылды.");
             }
-        } catch (error) {
-            alert("Серверге қосылу мүмкін емес: " + error.message);
         }
-    } else {
-        alert("Өшіру тоқтатылды.");
-    }
-}
 
 
 
-async function resetMain() {
-    const flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")?.trim().toLowerCase();
-    
-    if (flag === "ия") {
+        async function resetMain() {
+            const flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")?.trim().toLowerCase();
+            
+            if (flag === "ия") {
 
-        try {
-            const response = await fetch('/resetMain', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+                try {
+                    const response = await fetch('/account/resetMain', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
 
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const result = await response.json();
+                    const result = await response.json();
 
-            if (result.success) {
-                alert("Деректер сәтті өшірілді!");
-                location.reload(); // Перезагружаем страницу
-            } else {
-                alert("Қате: " + result.error);
+                    if (result.success) {
+                        alert("Деректер сәтті өшірілді!");
+                        location.reload(); // Перезагружаем страницу
+                    } else {
+                        alert("Қате: " + result.error);
+                    }
+                } catch (error) {
+                    alert("Серверге қосылу мүмкін емес: " + error.message);
+                }
+            }else{
+                alert("Өшіру тоқтатылды.");
             }
-        } catch (error) {
-            alert("Серверге қосылу мүмкін емес: " + error.message);
         }
-    }else{
-        alert("Өшіру тоқтатылды.");
-    }
-}
 
         
 
         function downloadAllUsers() {
-            fetch('/download/all')
+            fetch('/account/download/all')
                 .then(response => response.blob())
                 .then(blob => {
                     const url = window.URL.createObjectURL(blob);
