@@ -25,12 +25,16 @@ app.use(bodyParser.urlencoded({ extended: true })) // Add this for form submissi
 // Serve static files
 app.use(express.static(path.join(__dirname, 'views')))
 
-// Routes
-app.get('/', (req, res) => {
-    res.send("Main page")
-})
+
 
 app.use('/account', account)
+
+
+
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/reg.html'))
+})
 
 // Инициализация счетчика (выполняется один раз при запуске сервера)
 async function initializeCounter() {

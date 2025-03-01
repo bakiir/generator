@@ -8,9 +8,7 @@ const Counter = require('../models/Counter'); // Импортируем моде
 
 
 
-router.get('/reg', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views/reg.html'))
-})
+
 
 router.get('/users', async (req, res) => {
     try {
@@ -88,8 +86,6 @@ router.post('/resetMain', async (req, res) => {
         // Очищаем обе коллекции
         await User.deleteMany({});
 
-        // Сбрасываем счетчик
-        count = 0;
 
         res.json({ success: true, msg: "Деректер сәтті өшірілді!" });
     } catch (err) {

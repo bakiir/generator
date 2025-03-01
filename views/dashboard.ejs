@@ -87,33 +87,43 @@
 
     <script>
         async function resetData() {
+    const flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")?.trim().toLowerCase();
+    
+    if (flag === "ия") {
+        try {
+            const response = await fetch('/reset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-            var flag 
-            flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")
-            if (flag == "Ия"){
-                const response = await fetch('/reset', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-                const result = await response.json();
-                if (result.success) {
-                    alert("Деректер сәтті өшірілді!");
-                    location.reload(); // Перезагружаем страницу
-                } else {
-                    alert("Failed to reset data: " + result.error);
-                }
-            }else{
-                
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Деректер сәтті өшірілді!");
+                location.reload(); // Перезагружаем страницу
+            } else {
+                alert("Қате: " + result.error);
             }
-
-            
+        } catch (error) {
+            alert("Серверге қосылу мүмкін емес: " + error.message);
         }
+    } else {
+        alert("Өшіру тоқтатылды.");
+    }
+}
 
 
-        async function resetMain() {
+
+async function resetMain() {
+    const flag = prompt("Шынымен де өшіргіңіз келсе 'Ия' деп жазыңыз")?.trim().toLowerCase();
+    
+    if (flag === "ия") {
+
+        try {
             const response = await fetch('/resetMain', {
                 method: 'POST',
                 headers: {
@@ -121,20 +131,42 @@
                 },
             });
 
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
             const result = await response.json();
+
             if (result.success) {
                 alert("Деректер сәтті өшірілді!");
                 location.reload(); // Перезагружаем страницу
             } else {
-                alert("Failed to reset data: " + result.error);
+                alert("Қате: " + result.error);
             }
+        } catch (error) {
+            alert("Серверге қосылу мүмкін емес: " + error.message);
         }
+    }else{
+        alert("Өшіру тоқтатылды.");
+    }
+}
 
         
 
         function downloadAllUsers() {
-            window.location.href = '/download/all';
+            fetch('/download/all')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'users.xlsx'; 
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Ошибка при скачивании файла:', error));
         }
+
     </script>
 </body>
 </html>
