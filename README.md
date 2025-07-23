@@ -110,7 +110,6 @@ npm start
 * Генерация Excel:
 
   * `xlsx` (Node.js)
-  * `pandas` (Python)
 * Авторизация: JWT для админов
 
 ---
